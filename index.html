@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>That Dalia</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="page-shell">
+    <header class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">If i could dream</p>
+        <h1>That Dalia</h1>
+        <p class="subtitle">How to Love</p>
+      </div>
+
+      <aside class="hero-panel">
+        <div class="status-chip" aria-label="Music playing now">
+          <span class="status-dot"></span>
+          Now playing
+        </div>
+        <p class="hero-note">Love Like You</p>
+        <div class="audio-embed">
+          <audio id="bg-audio" controls autoplay loop preload="auto" playsinline>
+            <source src="assets/bg-music2.mp3" type="audio/mpeg" />
+            Your browser does not support audio playback.
+          </audio>
+        </div>
+      </aside>
+    </header>
+
+    <section class="swipe-track" aria-label="Swipe story cards">
+      <article class="story-card">
+        <span class="card-index">1</span>
+        <h2>Before I leave</h2>
+        <!-- <p class="story-text"></p> -->
+        <p class="action-note">Swipe to continue</p>
+      </article>
+
+      <article class="story-card">
+        <span class="card-index">2</span>
+        <h2>There was a flower</h2>
+        <!-- <p class="story-text">A quiet love note folded with sakura dreams.</p> -->
+        <p class="action-note">Swipe to continue</p>
+      </article>
+
+      <article class="story-card story-card--grid">
+        <span class="card-index">3</span>
+        <!-- <div class="grid-preview" aria-label="Mood board">
+         
+        </div> -->
+          <img src="assets/jl.png" alt="Mood board illustration" class="grid-image" />
+       
+        <p class="action-note">Swipe to continue</p>
+      </article>
+
+      <article class="story-card">
+        <span class="card-index">4</span>
+        <h2>I let it Wither</h2>
+        <!-- <p class="story-text">Floating light warms every secret wish.</p> -->
+        <p class="action-note">Swipe to continue</p>
+      </article>
+
+      <article class="story-card story-card--tall">
+        <span class="card-index">5</span>
+        <h2>I dey fight for your love'</h2>
+        <!-- <p class="story-text">A gentle flutter becomes a promise of spring.</p> -->
+        <p class="action-note">Swipe to continue</p> 
+      </article>
+
+      <article class="story-card story-card--tall">
+        <span class="card-index">6</span>
+        <h2>I want to be your Mandela</h2>
+        <!-- <p class="story-text">Heartbeats sync with the soft rhythm of the city.</p>-->
+        <p class="action-note">Swipe to continue</p> 
+      </article>
+
+      <article class="story-card story-card--tall">
+        <span class="card-index">7</span>
+        <h2>I got butterflies in my tummy everyday for you'</h2>
+        <!-- <p class="story-text">Every moment blooms into a gentle memory.</p> -->
+        <p class="action-note">Swipe to continue</p>
+      </article>
+
+       <article class="story-card story-card--tall">
+        <span class="card-index">8</span>
+        <h2>Effortless girl🌸</h2>
+    
+        <p class="action-note">Retro</p>
+      </article>
+    </section>
+  </main>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const audioEl = document.getElementById('bg-audio');
+      if (!audioEl) return;
+      const playPromise = audioEl.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          const hint = document.createElement('p');
+          hint.className = 'audio-hint';
+          hint.textContent = 'If autoplay is blocked, please tap play to start the music.';
+          audioEl.parentNode.appendChild(hint);
+        });
+      }
+    });
+  </script>
+</body>
+</html>
