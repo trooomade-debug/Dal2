@@ -23,7 +23,7 @@
         </div>
         <p class="hero-note">Love Like You</p>
         <div class="audio-embed">
-          <audio id="bg-audio" controls autoplay muted loop preload="auto" playsinline>
+          <audio id="bg-audio" controls autoplay loop preload="auto" playsinline>
             <source src="assets/bg-music2.mp3" type="audio/mpeg" />
             Your browser does not support audio playback.
           </audio>
@@ -99,14 +99,15 @@
       const showAudioFallback = () => {
         const hint = document.createElement('p');
         hint.className = 'audio-hint';
-        hint.textContent = 'Tap the button to start the music.';
+        hint.textContent = 'Autoplay is blocked. Tap the button to start the music.';
 
         const button = document.createElement('button');
         button.type = 'button';
         button.className = 'audio-start-button';
-        button.textContent = 'Start music';
+        button.textContent = 'Play music';
         button.addEventListener('click', () => {
           audioEl.muted = false;
+          audioEl.volume = 1;
           audioEl.play().catch(() => {});
           button.remove();
           hint.textContent = 'Enjoy the music.';
@@ -116,30 +117,16 @@
         audioEl.parentNode.appendChild(button);
       };
 
-      if (audioEl.muted) {
+      const attemptPlay = () => {
+        audioEl.muted = false;
+        audioEl.volume = 1;
         const playPromise = audioEl.play();
         if (playPromise !== undefined) {
-          playPromise.then(() => {
-            const hint = document.createElement('p');
-            hint.className = 'audio-hint';
-            hint.textContent = 'Music is playing silently. Tap to unmute.';
-
-            const button = document.createElement('button');
-            button.type = 'button';
-            button.className = 'audio-start-button';
-            button.textContent = 'Unmute';
-            button.addEventListener('click', () => {
-              audioEl.muted = false;
-              audioEl.play().catch(() => {});
-              button.remove();
-              hint.textContent = 'Enjoy the music.';
-            });
-
-            audioEl.parentNode.appendChild(hint);
-            audioEl.parentNode.appendChild(button);
-          }).catch(showAudioFallback);
+          playPromise.catch(showAudioFallback);
         }
-      }
+      };
+
+      attemptPlay();
     });
   </script>
 </body>
