@@ -99,7 +99,7 @@
       const showAudioFallback = () => {
         const hint = document.createElement('p');
         hint.className = 'audio-hint';
-        hint.textContent = 'Tap the button to start the music.';
+        hint.textContent = '';
 
         const button = document.createElement('button');
         button.type = 'button';
@@ -110,7 +110,7 @@
           audioEl.volume = 1;
           audioEl.play().catch(() => {});
           button.remove();
-          hint.textContent = 'Enjoy the music.';
+          hint.textContent = '';
         });
 
         audioEl.parentNode.appendChild(hint);
