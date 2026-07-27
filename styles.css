@@ -88,12 +88,21 @@ h1 {
   font-size: 0.95rem;
   border: 1px solid rgba(206, 110, 194, 0.3);
 }
+.status-chip--active {
+  background: #ecfdf5;
+  color: #166534;
+  border-color: rgba(34, 197, 94, 0.3);
+}
 .status-dot {
   width: 0.65rem;
   height: 0.65rem;
   border-radius: 50%;
   background: #fb7185;
   box-shadow: 0 0 0 5px rgba(251, 113, 133, 0.18);
+}
+.status-chip--active .status-dot {
+  background: #22c55e;
+  box-shadow: 0 0 0 5px rgba(34, 197, 94, 0.18);
 }
 .hero-note {
   margin: 0;

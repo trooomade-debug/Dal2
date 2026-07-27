@@ -94,7 +94,14 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const audioEl = document.getElementById('bg-audio');
+      const statusChip = document.querySelector('.status-chip');
       if (!audioEl) return;
+
+      const updateStatusChip = () => {
+        if (!statusChip) return;
+        const isPlaying = !audioEl.paused && !audioEl.ended && audioEl.currentTime > 0;
+        statusChip.classList.toggle('status-chip--active', isPlaying);
+      };
 
       const showAudioFallback = () => {
         const hint = document.createElement('p');
@@ -117,12 +124,18 @@
         audioEl.parentNode.appendChild(button);
       };
 
+      audioEl.addEventListener('play', updateStatusChip);
+      audioEl.addEventListener('pause', updateStatusChip);
+      audioEl.addEventListener('ended', updateStatusChip);
+      audioEl.addEventListener('playing', updateStatusChip);
+      audioEl.addEventListener('volumechange', updateStatusChip);
+
       const attemptPlay = () => {
         audioEl.muted = false;
         audioEl.volume = 1;
         const playPromise = audioEl.play();
         if (playPromise !== undefined) {
-          playPromise.catch(showAudioFallback);
+          playPromise.then(updateStatusChip).catch(showAudioFallback);
         }
       };
 
