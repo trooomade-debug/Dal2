@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>That Dalia</title>
+  <link rel="preload" as="audio" href="assets/bg-music2.mp3" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -22,7 +23,7 @@
         </div>
         <p class="hero-note">Love Like You</p>
         <div class="audio-embed">
-          <audio id="bg-audio" controls autoplay loop preload="auto" playsinline>
+          <audio id="bg-audio" controls autoplay muted loop preload="auto" playsinline>
             <source src="assets/bg-music2.mp3" type="audio/mpeg" />
             Your browser does not support audio playback.
           </audio>
@@ -47,11 +48,10 @@
 
       <article class="story-card story-card--grid">
         <span class="card-index">3</span>
-        <!-- <div class="grid-preview" aria-label="Mood board">
-         
-        </div> -->
-          <img src="assets/jl.png" alt="Mood board illustration" class="grid-image" />
-       
+        <picture>
+          <source srcset="assets/jl.webp" type="image/webp" />
+          <img src="assets/jl.png" alt="Mood board illustration" class="grid-image" loading="lazy" decoding="async" width="1366" height="768" />
+        </picture>
         <p class="action-note">Swipe to continue</p>
       </article>
 
@@ -95,14 +95,50 @@
     document.addEventListener('DOMContentLoaded', () => {
       const audioEl = document.getElementById('bg-audio');
       if (!audioEl) return;
-      const playPromise = audioEl.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          const hint = document.createElement('p');
-          hint.className = 'audio-hint';
-          hint.textContent = 'If autoplay is blocked, please tap play to start the music.';
-          audioEl.parentNode.appendChild(hint);
+
+      const showAudioFallback = () => {
+        const hint = document.createElement('p');
+        hint.className = 'audio-hint';
+        hint.textContent = 'Tap the button to start the music.';
+
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'audio-start-button';
+        button.textContent = 'Start music';
+        button.addEventListener('click', () => {
+          audioEl.muted = false;
+          audioEl.play().catch(() => {});
+          button.remove();
+          hint.textContent = 'Enjoy the music.';
         });
+
+        audioEl.parentNode.appendChild(hint);
+        audioEl.parentNode.appendChild(button);
+      };
+
+      if (audioEl.muted) {
+        const playPromise = audioEl.play();
+        if (playPromise !== undefined) {
+          playPromise.then(() => {
+            const hint = document.createElement('p');
+            hint.className = 'audio-hint';
+            hint.textContent = 'Music is playing silently. Tap to unmute.';
+
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'audio-start-button';
+            button.textContent = 'Unmute';
+            button.addEventListener('click', () => {
+              audioEl.muted = false;
+              audioEl.play().catch(() => {});
+              button.remove();
+              hint.textContent = 'Enjoy the music.';
+            });
+
+            audioEl.parentNode.appendChild(hint);
+            audioEl.parentNode.appendChild(button);
+          }).catch(showAudioFallback);
+        }
       }
     });
   </script>
