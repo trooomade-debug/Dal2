@@ -125,14 +125,17 @@
       };
 
       audioEl.addEventListener('play', updateStatusChip);
+      audioEl.addEventListener('playing', updateStatusChip);
       audioEl.addEventListener('pause', updateStatusChip);
       audioEl.addEventListener('ended', updateStatusChip);
-      audioEl.addEventListener('playing', updateStatusChip);
       audioEl.addEventListener('volumechange', updateStatusChip);
+      audioEl.addEventListener('timeupdate', updateStatusChip);
+      audioEl.addEventListener('durationchange', updateStatusChip);
 
       const attemptPlay = () => {
         audioEl.muted = false;
         audioEl.volume = 1;
+        updateStatusChip();
         const playPromise = audioEl.play();
         if (playPromise !== undefined) {
           playPromise.then(updateStatusChip).catch(showAudioFallback);
